@@ -1,0 +1,41 @@
+.page-link {
+    background: transparent;
+    color: #212529;
+    border: none;
+    display: block;
+    font-size: 2em;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+}
+
+.form-group .radio-inline { vertical-align: top; }
+
+/* This is the checked state */
+.custom-radio .custom-control-input:checked~.custom-control-label::before,
+.custom-radio .custom-control-input:checked~.custom-control-label::after {
+    background-color: #212529;
+    border: 3px #212529 solid;
+    border-radius: 50%;
+}
+
+.custom-control-label::before {
+    background-color: transparent;
+    border: 2px #212529 solid;
+    padding-bottom: 0%;
+    
+}
+
+.custom-control{
+    padding-bottom: 20px;
+}
+
+.nav-link {
+    cursor: pointer
+  }
+
+  .page-link {
+    cursor: pointer
+  }

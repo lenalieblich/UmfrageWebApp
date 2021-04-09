@@ -1,0 +1,79 @@
+<div class="container">
+
+  <div class="row mt-5">
+    <div class="col-sm mb-3">
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" [style.width.%]="progress" aria-valuenow=progress aria-valuemin="0"
+             aria-valuemax="100">{{progress}} %
+        </div>
+      </div>
+    </div>
+  </div>
+  <div (keyup.enter)="nextPage()" *ngIf="questionsArray" class="row mt-5">
+    <div class="col-sm">
+      <h6>Frage {{index + 1}} von {{arrayLength}} </h6>
+      <p class="h3 mb-4"> {{questionsArray[index].questionText | uppercase}}</p>
+
+      <div *ngFor="let answer of questionsArray[index].answers" class="custom-control custom-radio">
+        <input type="{{answer.answerType}}" [value]="answer.answerId" (change)="selectedAnswer(answer.answerId, null)"
+               class="custom-control-input" id="{{answer.answerId}}" name="groupOfDefaultRadios"
+               [checked]=answer.answered>
+        <label class="custom-control-label h5" for="{{answer.answerId}}">{{answer.answerText}} </label>
+
+        <ng-container *ngIf="answer.answered && answer.hasRefAnswers">
+          <div *ngFor="let ref_answer of answer.refAnswers">
+            <div *ngIf="ref_answer.answerType != 'text'; else elseBlock">
+              <input type="{{ref_answer.answerType}}" [value]="ref_answer.answerId"
+                     (change)="selectedAnswer(ref_answer.answerId, null)"
+                     class="custom-control-input" id="{{ref_answer.answerId}}" name="groupOfDefaultRadios2"
+                     [checked]=ref_answer.answered>
+              <label class="custom-control-label mt-3 ml-4"
+                     for="{{ref_answer.answerId}}">{{ref_answer.answerText}} </label>
+            </div>
+
+            <ng-template #elseBlock>
+              <div class="form-group">
+                <label class="mt-3" for="exampleFormControlTextarea1">{{ref_answer.answerText}}</label>
+                <textarea [(ngModel)]="ref_answer.userInput"
+                          (blur)="selectedAnswer(ref_answer.answerId, ref_answer.userInput)"
+                          class="form-control form-control-sm " id="exampleFormControlTextarea1" rows="2"
+                          maxlength="200">
+                      </textarea>
+              </div>
+            </ng-template>
+          </div>
+        </ng-container>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row mt-5  align-items-center justify-content-between">
+
+    <div class="col-auto ">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link m-0" (click)="prevPage()" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          <li class="page-item"><a class="page-link m-0">{{index + 1}}</a></li>
+          <li class="page-item">
+            <a class="page-link m-0" (click)="nextPage()" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <div *ngIf="!hidden" class="col-auto">
+      <a class="nav-link " style="display: inline; border-left: 2px solid #000000; margin: 0 1rem; padding: 0 1rem;"
+         (click)="submitSurvey()"> Submit Survey</a>
+    </div>
+
+  </div>
+</div>
